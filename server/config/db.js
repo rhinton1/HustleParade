@@ -19,4 +19,17 @@ const connectDB = async () => {
     }
 };
 
+const connectDBAtlas = async () => {
+    const connectionString = process.env.MONGO_ATLAS_URI;
+
+    mongoose.connect(connectionString)
+        .then(() => {
+            console.log('Connected to MongoDB successfully!');
+        })
+        .catch((error) => {
+            console.error('Error connecting to MongoDB:', error);
+        });
+}
+
 module.exports = connectDB;
+module.exports = connectDBAtlas;
