@@ -1,6 +1,6 @@
 name: pr_validator.yml
 on:
-  push:
+  pull_request:
     branches: ["main"]
 jobs:
   branch-checker:
@@ -8,12 +8,12 @@ jobs:
     steps:
       - name: Check Branch Name
         run: |
-          allowed_branches=("main", "hpGit_", "hpClt_", "hpAWS_", "hpServ_"
+          allowed_branches=("main", "hpGit_", "hpClt_", "hpAWS_", "hpServ_")
           current_branch="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
           
           is_allowed=false
           for branch in "${allowed_branches[@]}"; do
-            if [[ "$current_branch" == "$branch" ]]; then
+            if [[ "$current_branch" =~ "$branch"* ]]; then
               is_allowed=true
               break
             fi
