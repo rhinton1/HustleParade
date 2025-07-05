@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: Check Branch Name
         run: |
-          allowed_branches=("main", "hpGit_", "hpClt_", "hpAWS_", "hpServ_"
+          allowed_branches=("main", "hpGit_", "hpClt_", "hpAWS_", "hpServ_")
           current_branch="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
           
           is_allowed=false
