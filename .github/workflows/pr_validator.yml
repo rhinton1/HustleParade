@@ -1,0 +1,27 @@
+name: pr_validator.yml
+on:
+  push:
+    branches: ["main"]
+jobs:
+  branch-checker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Branch Name
+        run: |
+          allowed_branches=("main", "hpGit_", "hpClt_", "hpAWS_", "hpServ_"
+          current_branch="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+          
+          is_allowed=false
+          for branch in "${allowed_branches[@]}"; do
+            if [[ "$current_branch" == "$branch" ]]; then
+              is_allowed=true
+              break
+            fi
+          done
+          
+          if [[ "$is_allowed" == "true" ]]; then
+            echo "Branch name '$current_branch' is allowed."
+          else
+            echo "Error: Branch name '$current_branch' is not allowed."
+            exit 1  # Exit with a non-zero code to indicate failure
+          fi
