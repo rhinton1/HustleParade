@@ -6,7 +6,7 @@ jobs:
   branch-checker:
     runs-on: ubuntu-latest
     steps:
-      - name: Check Branch Name
+      - name: Check Branch Name...
         run: |
           allowed_branches=("main", "hpGit_", "hpClt_", "hpAWS_", "hpServ_")
           current_branch="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
@@ -25,3 +25,45 @@ jobs:
             echo "Error: Branch name '$current_branch' is not allowed."
             exit 1  # Exit with a non-zero code to indicate failure
           fi
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Unit Test Execution Determination...
+        id: test-check
+        run: |
+          current_branch="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+          branch1="hpServ_"
+          branch2="hpClt_"
+          
+          if [[ "$current_branch" =~ "$branch1" || "$current_branch" =~ "$branch2" ]]; then
+            echo "::set-output name=condition_met::true"
+          else
+            echo "Code change is an infrastructure change and does not require unit tests to be ran."
+      - name: Checkout code
+        if: steps.test-check.outputs.condition_met == 'true'
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        if: steps.test-check.outputs.condition_met == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies...
+        if: steps.test-check.outputs.condition_met == 'true'
+        run: |
+          current_branch="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+          if [[ "$current_branch" =~ "hpServ" ]]; then
+            cd server
+            npm ci
+          else
+            cd client
+            npm ci
+      - name: Run Unit Tests...
+        if: steps.test-check.outputs.condition_met == 'true'
+        id: test_results
+        run: |
+          current_branch="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+          if [[ "$current_branch" =~ "hpServ" ]]; then
+            cd server
+            npx jest --coverage --coverageReporters json-summary
+          else
+            cd client
