@@ -1,4 +1,4 @@
-name: pr_validator.yml
+name: PR Validator
 on:
   pull_request:
     branches: ["main"]
@@ -39,6 +39,7 @@ jobs:
             echo "::set-output name=condition_met::true"
           else
             echo "Code change is an infrastructure change and does not require unit tests to be ran."
+          fi
       - name: Checkout code
         if: steps.test-check.outputs.condition_met == 'true'
         uses: actions/checkout@v4
@@ -57,6 +58,7 @@ jobs:
           else
             cd client
             npm ci
+          fi
       - name: Run Unit Tests...
         if: steps.test-check.outputs.condition_met == 'true'
         id: test_results
@@ -67,3 +69,4 @@ jobs:
             npx jest --coverage --coverageReporters json-summary
           else
             cd client
+          fi
