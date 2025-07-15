@@ -69,4 +69,5 @@ jobs:
             npx jest --coverage --coverageReporters json-summary
           else
             cd client
+            npx playwright test
           fi
