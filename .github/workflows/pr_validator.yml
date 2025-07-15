@@ -59,6 +59,7 @@ jobs:
             cd client
             npm ci
           fi
+          npx playwright install --with-deps
       - name: Run Unit Tests...
         if: steps.test-check.outputs.condition_met == 'true'
         id: test_results
