@@ -1,0 +1,30 @@
+.local
+server/node_modules
+server/package-lock.json
+client/node_modules
+client/package-lock.json
+.env
+*.idea
+coverage
+
+
+# Playwright
+client/test-results/
+client/playwright-report/
+client/blob-report/
+client/playwright/.cache/
+client/tests-examples/
+clienttest-results.json
+
+# Logs
+client/logs
+client/*.log
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+client/pnpm-debug.log*
+client/lerna-debug.log*
+
+client/dist
+client/dist-ssr
+

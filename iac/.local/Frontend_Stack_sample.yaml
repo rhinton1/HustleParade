@@ -1,0 +1,83 @@
+#Host the React frontend as a static website on Amazon S3 and distribute it using CloudFront.
+#S3 Bucket: Store your static React application files.
+#CloudFront Distribution: Improve content delivery speed and enable HTTPS.
+#Route 53 (Optional): If you own a custom domain, you can map it to your CloudFront distribution.
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Frontend React Static Website on S3 and CloudFront
+
+Parameters:
+  DomainName:
+    Type: String
+    Description: Your custom domain name (e.g., example.com)
+    Default: '' # Leave empty if not using a custom domain
+  SubdomainName:
+    Type: String
+    Description: Your subdomain name for the frontend (e.g., www or app)
+    Default: 'www' # Only relevant if using a custom domain
+
+Resources:
+  # S3 Bucket for React App
+  FrontendS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "${SubdomainName}.${DomainName}" # Customize bucket name
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html # Or a custom error page
+      Tags:
+        - Key: Name
+          Value: MERN-FrontendS3Bucket
+
+  # Bucket Policy for Public Read Access
+  FrontendS3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref FrontendS3Bucket
+      PolicyDocument:
+        Statement:
+          - Sid: PublicReadGetObject
+            Effect: Allow
+            Principal: "*"
+            Action: s3:GetObject
+            Resource: !Sub "arn:aws:s3:::${FrontendS3Bucket}/*"
+
+  # CloudFront Distribution
+  FrontendCloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Comment: CloudFront distribution for MERN frontend
+        DefaultCacheBehavior:
+          TargetOriginId: S3Origin
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods:
+            - GET
+            - HEAD
+          CachedMethods:
+            - GET
+            - HEAD
+          ForwardedValues:
+            QueryString: false
+            Cookies:
+              Forward: none
+        Origins:
+          - Id: S3Origin
+            DomainName: !GetAtt FrontendS3Bucket.RegionalDomainName
+            S3OriginConfig:
+              OriginAccessIdentity: "" # For static website hosting, no OAI needed
+        # ViewerCertificate: # Uncomment and configure if using a custom domain with ACM
+        #   AcmCertificateArn: # ARN of your ACM certificate
+        #   SslSupportMethod: sni-only
+        #   MinimumProtocolVersion: TLSv1.2_2021
+        Aliases: # Uncomment and add if using a custom domain
+          - !Sub "${SubdomainName}.${DomainName}"
+
+Outputs:
+  FrontendWebsiteURL:
+    Description: URL of the static website hosted on S3
+    Value: !GetAtt FrontendS3Bucket.WebsiteURL
+  FrontendCloudFrontDomainName:
+    Description: CloudFront distribution domain name
+    Value: !GetAtt FrontendCloudFrontDistribution.DomainName
