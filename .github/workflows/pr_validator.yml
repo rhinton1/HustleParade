@@ -53,22 +53,22 @@ jobs:
         run: |
           current_branch="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
           if [[ "$current_branch" =~ "hpServ" ]]; then
-            cd server
+            cd iac/server
             npm ci
           else
-            cd client
+            cd iac/client
             npm ci
+            npx playwright install --with-deps
           fi
-          npx playwright install --with-deps
       - name: Run Unit Tests...
         if: steps.test-check.outputs.condition_met == 'true'
         id: test_results
         run: |
           current_branch="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
           if [[ "$current_branch" =~ "hpServ" ]]; then
-            cd server
+            cd iac/server
             npx jest --coverage --coverageReporters json-summary
           else
-            cd client
+            cd iac/client
             npx playwright test
           fi

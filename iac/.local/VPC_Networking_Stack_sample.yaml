@@ -1,0 +1,69 @@
+#The foundational networking infrastructure to house the application components.
+#VPC (Virtual Private Cloud): A virtual network dedicated to your AWS account, isolated from other virtual networks in the AWS Cloud.
+#Subnets: Create public and private subnets for your application components to enhance security.
+#Internet Gateway: Allows communication between your VPC and the internet.
+#Route Tables: Control network traffic within your VPC and to the internet.
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: VPC and Networking for MERN Application
+
+Resources:
+  # VPC
+  MERNVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: MERN-VPC
+
+  # Public Subnet
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MERNVPC
+      CidrBlock: 10.0.1.0/24
+      MapPublicIpOnLaunch: true # For public EC2 instance
+      Tags:
+        - Key: Name
+          Value: MERN-PublicSubnet
+
+  # Internet Gateway
+  MERNInternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Tags:
+      - Key: Name
+        Value: MERN-InternetGateway
+
+  # Attach Internet Gateway to VPC
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref MERNVPC
+      InternetGatewayId: !Ref MERNInternetGateway
+
+  # Public Route Table
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MERNVPC
+      Tags:
+        - Key: Name
+          Value: MERN-PublicRouteTable
+
+  # Route to Internet Gateway
+  PublicRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref MERNInternetGateway
+
+  # Associate Public Subnet with Public Route Table
+  PublicSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref PublicRouteTable

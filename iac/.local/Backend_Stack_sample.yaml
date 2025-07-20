@@ -1,0 +1,78 @@
+#Deploy the Express.js/Node.js backend on an EC2 instance.
+#EC2 Instance: A virtual server to run your backend application. Choose a Free Tier eligible instance type like a t2.micro or t3.micro.
+#Security Group: Restrict inbound and outbound traffic to the EC2 instance.
+#EIP (Elastic IP): A static public IP address for your EC2 instance (optional, within Free Tier limits for the first 12 months).
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Backend EC2 Instance for MERN Application
+
+Parameters:
+  KeyName:
+    Type: String
+    Description: Name of an existing EC2 KeyPair to enable SSH access
+
+Resources:
+  # Security Group for Backend EC2
+  BackendSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTP(S) and SSH access to MERN backend
+      VpcId: !ImportValue MERN-VPCID # Assuming VPC stack outputs VPCID
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0 # Restrict this to your IP for production
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: MERN-BackendSecurityGroup
+
+  # Backend EC2 Instance
+  BackendEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0abcdef1234567890 # Replace with a valid AMI ID for your region (e.g., Ubuntu Server LTS)
+      InstanceType: t2.micro # Free tier eligible
+      KeyName: !Ref KeyName
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeviceIndex: 0
+          SubnetId: !ImportValue MERN-PublicSubnetID # Assuming VPC stack outputs PublicSubnetID
+          GroupSet:
+            - !Ref BackendSecurityGroup
+      UserData: # Install Node.js, npm, git, clone your repository, and start your application
+        Fn::Base64: |
+          #!/bin/bash
+          sudo apt update
+          sudo apt install -y nodejs npm git
+          # Clone your MERN backend repository (replace with your repository URL)
+          git clone https://github.com/your-username/your-mern-backend-repo.git /home/ubuntu/your-mern-backend-repo
+          cd /home/ubuntu/your-mern-backend-repo
+          npm install
+          npm start # Or use a process manager like pm2
+
+      Tags:
+        - Key: Name
+          Value: MERN-BackendEC2Instance
+
+  # Optional: EIP for the EC2 Instance
+  BackendEIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      InstanceId: !Ref BackendEC2Instance
+      Tags:
+        - Key: Name
+          Value: MERN-BackendEIP
+
+Outputs:
+  BackendPublicIp:
+    Description: Public IP address of the backend EC2 instance
+    Value: !GetAtt BackendEC2Instance.PublicIp
