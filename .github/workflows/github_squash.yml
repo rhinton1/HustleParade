@@ -1,0 +1,37 @@
+name: Capture Squashed Commit Messages
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened] # Trigger on PR events
+
+jobs:
+  capture_messages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch full history for accurate log
+
+      - name: Get commit messages to be squashed
+        id: commit_messages
+        run: |
+          # Get the base commit of the PR (e.g., the merge base with the target branch)
+          # and the head commit of the PR branch
+          BASE_COMMIT=$(git merge-base ${{ github.event.pull_request.base.sha }} HEAD)
+          
+          # Get the commit messages and IDs from the base commit to the head of the PR branch
+          # --pretty=format:"%H %s" outputs commit hash and subject
+          # --reverse ensures chronological order
+          COMMIT_INFO=$(git log --pretty=format:"%H %s" --reverse ${BASE_COMMIT}..HEAD)
+          
+          # Output the commit information to be used in subsequent steps
+          echo "commit_info<<EOF" >> $GITHUB_OUTPUT
+          echo "${COMMIT_INFO}" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Process captured messages
+        run: |
+          echo "Captured commit messages and IDs:"
+          echo "${{ steps.commit_messages.outputs.commit_info }}"
+          # You can further process this output, e.g., parse it, store it in an artifact, etc.
