@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useAuth } from '../hooks/useAuth';
+import AuthModal from '../components/AuthModal';
 import Header from './components/Header'
 import HeroSection from './components/HeroSection';
 import FeaturesSection from './components/FeaturesSection';
@@ -8,17 +10,19 @@ import CallToAction from './components/CallToAction';
 import Footer from './components/Footer';
 
 const HomePage = () => {
+    const { isAuthenticated } = useAuth();
+    const [showAuthModal, setShowAuthModal] = useState(false);
+
     return (
         <div className="min-h-screen flex flex-col bg-[#B0A287] text-white">
-            <Header />
             <main className="flex-grow">
-                <HeroSection />
-                <CollaborationShowcase /> {/* Displays featured collaborations or projects */}
-                <FeaturesSection /> {/* Highlights key platform features */}
-                <PodcastPlayer /> {/* Integrated podcast player */}
-                <CallToAction />
+                <HeroSection onGetStarted={() => setShowAuthModal(true)} />
+                <CollaborationShowcase />
+                <FeaturesSection />
+                <PodcastPlayer />
+                <CallToAction onSignUp={() => setShowAuthModal(true)} />
             </main>
-            <Footer />
+            <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} mode="login" />
         </div>
     )
 }
