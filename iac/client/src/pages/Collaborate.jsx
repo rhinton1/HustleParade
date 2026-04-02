@@ -8,18 +8,18 @@ const Collaborate = () => {
 
     if (!isAuthenticated) {
         return (
-            <div className="min-h-screen bg-gray-900 text-white py-8">
+            <div className="min-h-screen bg-black text-white py-8">
                 <div className="container mx-auto max-w-4xl px-4">
-                    <h1 className="text-4xl font-bold mb-2">Collaborate</h1>
-                    <p className="text-gray-400 mb-8">Connect with musicians and create amazing music together.</p>
+                    <h1 className="text-5xl font-black mb-4 text-yellow-300">🎛️ COLLAB STATION 🎛️</h1>
+                    <p className="text-gray-300 font-bold mb-8">Connect with producers, rappers, and engineers worldwide.</p>
 
-                    <div className="bg-gray-800 p-8 rounded-lg text-center">
-                        <p className="mb-6 text-lg">Sign in to start collaborating with other artists</p>
+                    <div className="bg-gradient-to-br from-gray-900 to-black p-10 rounded-lg text-center border-2 border-yellow-400">
+                        <p className="mb-6 text-xl font-bold text-gray-200">Sign in to drop your beats and find your next feature</p>
                         <button
                             onClick={() => setShowAuthModal(true)}
-                            className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-full text-lg transition"
+                            className="bg-yellow-400 hover:bg-yellow-300 text-black font-black py-4 px-10 rounded-full text-lg transition transform hover:scale-105"
                         >
-                            Login to Collaborate
+                            LOGIN TO COLLAB 🔥
                         </button>
                     </div>
                 </div>
@@ -29,79 +29,79 @@ const Collaborate = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white py-8">
+        <div className="min-h-screen bg-black text-white py-8">
             <div className="container mx-auto max-w-4xl px-4">
-                <h1 className="text-4xl font-bold mb-2">Collaborate</h1>
-                <p className="text-gray-400 mb-8">Connect with musicians and create amazing music together.</p>
+                <h1 className="text-5xl font-black mb-4 text-yellow-300">🎛️ COLLAB STATION 🎛️</h1>
+                <p className="text-gray-300 font-bold mb-10">Connect with producers, rappers, and engineers worldwide.</p>
 
                 {/* Upload Music Section */}
-                <div className="bg-gray-800 p-6 rounded-lg mb-8">
-                    <h2 className="text-2xl font-bold mb-4">Upload Your Music</h2>
-                    <p className="text-gray-400 mb-6">Share your tracks and find collaboration opportunities</p>
+                <div className="bg-gradient-to-br from-gray-900 to-black p-8 rounded-lg mb-10 border-2 border-yellow-400">
+                    <h2 className="text-3xl font-black mb-4 text-yellow-300">🔊 DROP YOUR BEAT</h2>
+                    <p className="text-gray-300 mb-8 font-bold">Share your production and find your next collab partner</p>
                     
-                    <form className="space-y-4">
+                    <form className="space-y-5">
                         <div>
-                            <label className="block text-sm font-semibold mb-2">Track Title</label>
+                            <label className="block text-sm font-black mb-2 text-yellow-400">BEAT NAME</label>
                             <input
                                 type="text"
-                                placeholder="e.g., Summer Vibes Remix"
-                                className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded placeholder-gray-500"
+                                placeholder="e.g., Golden Hour Trap Beat"
+                                className="w-full p-3 bg-gray-800 text-white border-2 border-gray-700 rounded placeholder-gray-500 focus:border-yellow-400 focus:outline-none"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-semibold mb-2">Description</label>
+                            <label className="block text-sm font-black mb-2 text-yellow-400">DESCRIPTION</label>
                             <textarea
-                                placeholder="Tell others about your track..."
-                                className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded placeholder-gray-500 resize-none h-24"
+                                placeholder="BPM, sample credits, vibe, looking for rappers/singers..."
+                                className="w-full p-3 bg-gray-800 text-white border-2 border-gray-700 rounded placeholder-gray-500 resize-none h-24 focus:border-yellow-400 focus:outline-none"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-semibold mb-2">Full Track URL</label>
+                            <label className="block text-sm font-black mb-2 text-yellow-400">FULL TRACK URL</label>
                             <input
                                 type="url"
-                                placeholder="https://example.com/track.mp3"
-                                className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded placeholder-gray-500"
+                                placeholder="https://example.com/beat.mp3"
+                                className="w-full p-3 bg-gray-800 text-white border-2 border-gray-700 rounded placeholder-gray-500 focus:border-yellow-400 focus:outline-none"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-semibold mb-2">Preview Clip URL</label>
+                            <label className="block text-sm font-black mb-2 text-yellow-400">PREVIEW CLIP URL</label>
                             <input
                                 type="url"
                                 placeholder="https://example.com/preview.mp3"
-                                className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded placeholder-gray-500"
+                                className="w-full p-3 bg-gray-800 text-white border-2 border-gray-700 rounded placeholder-gray-500 focus:border-yellow-400 focus:outline-none"
                             />
                         </div>
 
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 p-3 bg-gray-800 rounded border-2 border-gray-700">
                             <input
                                 type="checkbox"
                                 id="public"
                                 defaultChecked
-                                className="w-4 h-4"
+                                className="w-5 h-5 cursor-pointer"
                             />
-                            <label htmlFor="public" className="text-sm">
-                                Make this track public so others can discover it
+                            <label htmlFor="public" className="text-sm font-bold cursor-pointer">
+                                Make this beat available for features 🌍
                             </label>
                         </div>
 
                         <button
                             type="submit"
-                            className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded transition"
+                            className="w-full bg-yellow-400 hover:bg-yellow-300 text-black font-black py-4 rounded transition transform hover:scale-105"
                         >
-                            Upload Track
+                            🚀 UPLOAD BEAT
                         </button>
                     </form>
                 </div>
 
                 {/* Find Collaborators Section */}
-                <div className="bg-gray-800 p-6 rounded-lg">
-                    <h2 className="text-2xl font-bold mb-4">Find Collaborators</h2>
-                    <p className="text-gray-400 mb-6">Browse musicians looking to collaborate</p>
-                    <button className="text-green-400 hover:text-green-300 font-semibold">
-                        Browse Collaborators →
+                <div className="bg-gradient-to-br from-gray-900 to-black p-8 rounded-lg border-2 border-yellow-400">
+                    <h2 className="text-3xl font-black mb-4 text-yellow-300">🔍 FIND YOUR SQUAD</h2>
+                    <p className="text-gray-300 mb-6 font-bold">Browse artists looking to collaborate</p>
+                    <button className="bg-yellow-400 hover:bg-yellow-300 text-black font-black py-3 px-8 rounded-full transition transform hover:scale-105">
+                        🎤 BROWSE COLLABORATORS
                     </button>
                 </div>
             </div>
