@@ -31,5 +31,4 @@ const connectDBAtlas = async () => {
         });
 }
 
-module.exports = connectDB;
 module.exports = connectDBAtlas;

@@ -53,3 +53,52 @@ exports.uploadMusic = async (req, res) => {
         res.status(500).json({ message: 'Server error', error: err.message });
     }
 };
+
+// Delete music (owner only)
+exports.deleteMusic = async (req, res) => {
+    try {
+        const { musicId } = req.params;
+        const userId = req.user.id;
+
+        const music = await Music.findById(musicId);
+        if (!music) return res.status(404).json({ message: 'Music not found' });
+
+        if (music.user.toString() !== userId) {
+            return res.status(403).json({ message: 'You can only delete your own music' });
+        }
+
+        await Music.findByIdAndDelete(musicId);
+
+        res.status(200).json({ message: 'Music deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+};
+
+// Update music (owner only)
+exports.updateMusic = async (req, res) => {
+    try {
+        const { musicId } = req.params;
+        const { title, description, url, clipUrl, public: isPublic } = req.body;
+        const userId = req.user.id;
+
+        const music = await Music.findById(musicId);
+        if (!music) return res.status(404).json({ message: 'Music not found' });
+
+        if (music.user.toString() !== userId) {
+            return res.status(403).json({ message: 'You can only update your own music' });
+        }
+
+        if (title !== undefined) music.title = title;
+        if (description !== undefined) music.description = description;
+        if (url !== undefined) music.url = url;
+        if (clipUrl !== undefined) music.clipUrl = clipUrl;
+        if (isPublic !== undefined) music.public = isPublic;
+
+        await music.save();
+
+        res.status(200).json(music);
+    } catch (err) {
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+};
