@@ -2,21 +2,24 @@ import React from 'react';
 
 const FeaturesSection = () => {
     return (
-        <section className="bg-gray-800 py-16">
+        <section className="bg-gray-950 py-20 border-t-4 border-b-4 border-yellow-400">
             <div className="container mx-auto text-center">
-                <h3 className="text-4xl font-bold mb-12">How It Works</h3>
+                <h3 className="text-5xl font-black mb-16 text-yellow-300">🔥 THE GRIND PROCESS 🔥</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div className="p-6 rounded-lg shadow-lg bg-gray-700">
-                        <h4 className="text-2xl font-semibold mb-2">Find Your Tribe</h4>
-                        <p className="text-gray-300">Discover musicians with complementary skills and styles.</p>
+                    <div className="p-8 rounded-lg shadow-lg bg-gradient-to-b from-gray-900 to-black border-2 border-yellow-400">
+                        <div className="text-4xl mb-4">🎯</div>
+                        <h4 className="text-2xl font-black mb-3 text-yellow-300">DROP YOUR CATALOG</h4>
+                        <p className="text-gray-300 text-lg">Showcase your beats, bars, and production to the world.</p>
                     </div>
-                    <div className="p-6 rounded-lg shadow-lg bg-gray-700">
-                        <h4 className="text-2xl font-semibold mb-2">Collaborate Seamlessly</h4>
-                        <p className="text-gray-300">Share ideas, track progress, and create music together.</p>
+                    <div className="p-8 rounded-lg shadow-lg bg-gradient-to-b from-gray-900 to-black border-2 border-yellow-400">
+                        <div className="text-4xl mb-4">🤝</div>
+                        <h4 className="text-2xl font-black mb-3 text-yellow-300">FIND YOUR SQUAD</h4>
+                        <p className="text-gray-300 text-lg">Connect with producers, rappers, and engineers who vibe with your sound.</p>
                     </div>
-                    <div className="p-6 rounded-lg shadow-lg bg-gray-700">
-                        <h4 className="text-2xl font-semibold mb-2">Release Your Sound</h4>
-                        <p className="text-gray-300">Prepare your collaborative tracks for distribution.</p>
+                    <div className="p-8 rounded-lg shadow-lg bg-gradient-to-b from-gray-900 to-black border-2 border-yellow-400">
+                        <div className="text-4xl mb-4">💿</div>
+                        <h4 className="text-2xl font-black mb-3 text-yellow-300">RELEASE FIRE</h4>
+                        <p className="text-gray-300 text-lg">Distribute your collaborative tracks and blow up the charts.</p>
                     </div>
                 </div>
             </div>

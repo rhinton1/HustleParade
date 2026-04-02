@@ -14,45 +14,47 @@ const Header = () => {
     };
 
     return (
-        <header className="bg-[#000C0e] p-4 shadow-md">
-            <nav className="container mx-auto flex justify-between items-center">
+        <header className="bg-black border-b-4 border-yellow-400 shadow-lg">
+            <nav className="container mx-auto flex justify-between items-center px-4 py-4">
                 <Link to="/">
-                    <h1 className="text-3xl font-bold text-red-400 hover:text-red-300 cursor-pointer">Hustle Parade</h1>
+                    <h1 className="text-3xl font-black text-yellow-400 hover:text-yellow-300 cursor-pointer drop-shadow-lg" style={{textShadow: '0 0 10px rgba(250, 204, 21, 0.3)'}}>
+                        🎤 HUSTLE PARADE
+                    </h1>
                 </Link>
-                <ul className="flex space-x-6 items-center">
-                    <li><Link to="/discover" className="text-white hover:text-green-400">Discover</Link></li>
-                    <li><Link to="/collaborate" className="text-white hover:text-green-400">Collaborate</Link></li>
-                    <li><Link to="/podcast" className="text-white hover:text-green-400">Podcast</Link></li>
+                <ul className="flex space-x-8 items-center">
+                    <li><Link to="/discover" className="text-yellow-300 hover:text-yellow-400 font-bold">DISCOVER</Link></li>
+                    <li><Link to="/collaborate" className="text-yellow-300 hover:text-yellow-400 font-bold">COLLAB</Link></li>
+                    <li><Link to="/podcast" className="text-yellow-300 hover:text-yellow-400 font-bold">PODCAST</Link></li>
                     
                     {!isAuthenticated ? (
                         <>
                             <li>
                                 <button
                                     onClick={() => setShowAuthModal(true)}
-                                    className="text-white hover:text-green-400 font-semibold"
+                                    className="bg-yellow-400 hover:bg-yellow-300 text-black font-black py-2 px-6 rounded-full transition transform hover:scale-105"
                                 >
-                                    Login
+                                    LOGIN
                                 </button>
                             </li>
                         </>
                     ) : (
                         <>
                             <li>
-                                <Link to="/dashboard" className="text-white hover:text-green-400 font-semibold">
-                                    Dashboard
+                                <Link to="/dashboard" className="text-yellow-300 hover:text-yellow-400 font-bold">
+                                    STUDIO
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/settings" className="text-white hover:text-blue-400 font-semibold">
+                                <Link to="/settings" className="text-yellow-300 hover:text-yellow-400 font-bold">
                                     ⚙️ {user?.username}
                                 </Link>
                             </li>
                             <li>
                                 <button
                                     onClick={handleLogout}
-                                    className="text-white hover:text-red-400 font-semibold"
+                                    className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-full transition"
                                 >
-                                    Logout
+                                    LOGOUT
                                 </button>
                             </li>
                         </>

@@ -11,11 +11,10 @@ export const AuthProvider = ({ children }) => {
 
     // Sync React state whenever the auth service state changes
     useEffect(() => {
-        const unsubscribe = authService.subscribe(({ user, token }) => {
+        return authService.subscribe(({ user, token }) => {
             setUser(user);
             setToken(token);
         });
-        return unsubscribe;
     }, []);
 
     // Re-hydrate the user from the server on initial load

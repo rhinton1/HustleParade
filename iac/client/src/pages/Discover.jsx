@@ -30,51 +30,51 @@ const Discover = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white py-8">
+        <div className="min-h-screen bg-black text-white py-8">
             <div className="container mx-auto max-w-4xl px-4">
-                <h1 className="text-4xl font-bold mb-2">Discover</h1>
-                <p className="text-gray-400 mb-8">Find talented musicians and amazing music from the community.</p>
+                <h1 className="text-5xl font-black mb-3 text-yellow-300">🔍 DISCOVER HEAT 🔍</h1>
+                <p className="text-gray-300 font-bold mb-10">Find fire beats, producers, and rappers from around the world.</p>
 
                 {/* Tabs */}
-                <div className="flex gap-4 mb-8 border-b border-gray-700">
+                <div className="flex gap-4 mb-10 border-b-2 border-gray-700">
                     <button
                         onClick={() => setActiveTab('music')}
-                        className={`pb-2 px-4 font-semibold transition ${
+                        className={`pb-3 px-6 font-black transition ${
                             activeTab === 'music'
-                                ? 'border-b-2 border-green-500 text-green-400'
+                                ? 'border-b-4 border-yellow-400 text-yellow-300 text-lg'
                                 : 'text-gray-400 hover:text-white'
                         }`}
                     >
-                        🎵 Music
+                        🎵 BEATS
                     </button>
                     <button
                         onClick={() => setActiveTab('posts')}
-                        className={`pb-2 px-4 font-semibold transition ${
+                        className={`pb-3 px-6 font-black transition ${
                             activeTab === 'posts'
-                                ? 'border-b-2 border-green-500 text-green-400'
+                                ? 'border-b-4 border-yellow-400 text-yellow-300 text-lg'
                                 : 'text-gray-400 hover:text-white'
                         }`}
                     >
-                        📝 Posts
+                        📣 BARS
                     </button>
                 </div>
 
-                {loading && <div className="text-center text-gray-400">Loading...</div>}
-                {error && <div className="text-center text-red-400">{error}</div>}
+                {loading && <div className="text-center text-gray-400 text-lg">Loading the culture...</div>}
+                {error && <div className="text-center text-red-400 font-bold">{error}</div>}
 
                 {!loading && !error && (
                     <div>
                         {activeTab === 'music' && (
-                            <div className="text-center text-gray-400 py-12">
-                                <p className="mb-4">🎵 Music catalog coming soon</p>
-                                <p className="text-sm">Share your music to appear here!</p>
+                            <div className="text-center text-gray-400 py-20">
+                                <p className="mb-4 text-2xl">🎵 Beat catalog loading...</p>
+                                <p className="text-sm">Drop your beats to appear here! 🔥</p>
                             </div>
                         )}
 
                         {activeTab === 'posts' && (
-                            <div className="text-center text-gray-400 py-12">
-                                <p className="mb-4">📝 Community posts coming soon</p>
-                                <p className="text-sm">Share your thoughts to appear here!</p>
+                            <div className="text-center text-gray-400 py-20">
+                                <p className="mb-4 text-2xl">📣 Freestyle posts loading...</p>
+                                <p className="text-sm">Share your thoughts to appear here! 🎤</p>
                             </div>
                         )}
                     </div>
